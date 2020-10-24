@@ -1,0 +1,80 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Select2</h1>
+</div>
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Simple Static Select</label>
+                <select class="form-control" asp-for="@Model.simpleSelect1">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Simple Static Backend Select</label>
+                <select class="form-control" asp-for="@Model.simpleSelect2" asp-items="@Model.DDValue">
+                    <option value="">Select...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Simple Ajax Select</label>
+                <select name="simpleSelect3" class="form-control" asp-for="@Model.simpleSelect3">
+                    <option value="">Select...</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Simple Static Multi Select</label>
+                <select class="form-control" asp-for="@Model.simpleSelect4" asp-items="@Model.DDValue" multiple>
+                    <option value="">Select...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js" integrity="sha512-9p/L4acAjbjIaaGXmZf0Q2bV42HetlCLbv8EP0z3rLbQED2TAFUlDvAezy7kumYqg5T8jHtDdlm1fgIsr5QzKg==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.full.min.js" integrity="sha512-rNNKEb5WQbxA4pLtGV9W746iT7tZlpjC6duViljPlPQhOOPz6Vu3nae8G9A36/W8WT+BWhso9vgETSfSP604vw==" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $("#simpleSelect1").select2({
+            placeholder: "Select...",
+        });
+        $("#simpleSelect2").select2({
+            placeholder: "Select...",
+        });
+        $("#simpleSelect3").select2({
+            placeholder: "Select..."
+        });
+        $("#simpleSelect4").select2({
+            placeholder: "Select..."
+        });
+        $(document).ready(function () {
+            $("#simpleSelect3").empty();
+            $("#simpleSelect3").append("<option value=''>Select...</option>");
+            $.getJSON(`?handler=DD3`, (data) => {
+                $.each(data, function (i, item) {
+                    $("#simpleSelect3").append(`<option value="${item}">${item}</option>`);
+                });
+            });
+        });</script>
+}
